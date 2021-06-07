@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-06-01 16:18:11
- * @LastEditTime: 2021-06-03 15:39:55
+ * @LastEditTime: 2021-06-07 16:49:30
  * @LastEditors: Please set LastEditors
  * @Description: 学习设计模式前的准备
  * @FilePath: \learn-design-patterns\learns\dp_0.js
@@ -98,3 +98,102 @@ func();
 /**
  * 闭包和高阶函数
  */
+
+// 闭包：封装变量
+
+// 闭包：延续局部变量的寿命
+
+// 闭包：内存管理
+
+// 。。。
+
+// 高阶函数：函数作为参数传递
+
+// 高阶函数：函数作为返回值输出
+
+// 高阶函数：实现AOP（面向切面编程）
+Function.prototype.before=function(beforefn){
+    var __self=this; // 保存原函数的引用
+    return function(){ // 返回包含了原函数和新函数的“代理”函数
+        beforefn.apply(this.arguments); // 执行新函数，修正this
+        return __self.apply(this.arguments); // 执行原函数
+    }
+}
+
+Function.prototype.after=function(afterfn){
+    var __self=this;
+    return function(){
+        var ret= __self.apply( this , arguments );
+        afterfn.apply( this,arguments);
+        return ret;
+    }
+}
+
+var func=function(){
+    console.log(2);
+}
+
+func =func.before(function(){
+    console.log(1)
+}).after(function(){
+    console.log(3)
+})
+
+func();
+// 高阶函数：函数柯里化
+// 1、常规
+var monthlyCost=0;
+var cost = function(money){
+    monthlyCost+=money;
+}
+cost(100);
+cost(200);
+console.log(monthlyCost);
+// 2、简易柯里化
+var cost=(function(){
+    var args=[];
+    return function(){
+        if (arguments.length===0) {
+            var money=0;
+            for (let i = 0; i < args.length; i++) {
+                money+=args[i];
+            }
+            return money;
+        }else{
+            [].push.apply(args,arguments);
+        }
+    }
+})();
+cost(100);
+cost(200);
+cost(300,600);
+console.log(cost());
+// 3、通用柯里化
+var currying=function(fn){
+    var args=[];
+    return function(){
+        if(arguments.length===0){
+            return fn.apply(this,args);
+        }else{
+            [].push.apply(args,arguments);
+            return arguments.callee;
+        }
+    }
+}
+
+var cost =(function(){
+    var money=0;
+    return function(){
+        for (let i = 0; i < arguments.length; i++) {
+            money+=arguments[i];
+        }
+        return money;
+    }
+})();
+
+var cost=currying(cost); // 转化成currying函数
+
+cost(100);
+cost(200);
+cost(300);
+console.log(cost())
