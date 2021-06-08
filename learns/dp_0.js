@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-06-01 16:18:11
- * @LastEditTime: 2021-06-07 16:49:30
+ * @LastEditTime: 2021-06-08 17:28:58
  * @LastEditors: Please set LastEditors
  * @Description: 学习设计模式前的准备
  * @FilePath: \learn-design-patterns\learns\dp_0.js
@@ -197,3 +197,90 @@ cost(100);
 cost(200);
 cost(300);
 console.log(cost())
+
+// 高阶函数：函数节流
+console.log('// 高阶函数：函数节流')
+var throttle=function(fn,interval){
+    var __self = fn , // 保存需要被延时执行的函数引用
+        timer,        // 定时器
+        firstTime=true; // 是否是第一次调用
+    return function(){
+        var args = arguments, __me=this;
+        // 如果是第一次调用，不需要延迟执行
+        if(firstTime){
+            __self.apply(__me,args);
+            return firstTime=false;
+        }
+        // 如果定时器还在，说明前一次延迟执行还没有完成
+        if(timer){
+            return false;
+        }
+        // 延迟一段时间执行
+        timer=setTimeout(function(){
+            __self.apply(__me,args);
+            clearTimeout(timer);
+            timer=null;
+            
+        },interval || 500)
+    }
+}
+var selfThrottle=function(fn,interval=500){
+    var firstTime=true;
+    var isRun=false;
+    return function(){
+        var args=arguments;
+        if(firstTime){
+            fn.apply(this,args);
+            firstTime=false;
+            return;
+        }
+        if(isRun){
+            return;
+        }
+        isRun=true;
+        setTimeout(() => {
+            isRun=false;
+            fn.apply(this,args);
+        }, interval);
+    }
+}
+var testFn=selfThrottle(function(num){
+    console.log(num);
+});
+var testNumber=0;
+const testInterval=setInterval(() => {
+    testNumber++;
+    testFn(testNumber)
+}, 100);
+setTimeout(() => {
+    clearInterval(testInterval)
+}, 1000);
+
+// 高阶函数：分时函数
+console.log('// 高阶函数：分时函数')
+var timeChunk = function(ary,fn,count){
+    var start=function(){
+        for (let i = 0; i < Math.min(count || 1,ary.length); i++) {
+            var obj=ary.shift();
+            fn(obj);
+        }
+    }
+    return function(){
+        t=setInterval(function(){
+            if(ary.length===0){
+                return clearInterval(t);
+            }
+            start();
+        },1000)
+    }
+}
+var ary=[];
+for (let i = 0; i < 100; i++) {
+    ary.push(i);
+}
+var testRenderList=timeChunk(ary,function(n){
+    console.log(n)
+},8)
+testRenderList();
+
+// 高阶函数：惰性加载函数
