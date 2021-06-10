@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-05-28 16:23:49
- * @LastEditTime: 2021-06-09 16:58:05
+ * @LastEditTime: 2021-06-10 16:44:56
  * @LastEditors: Please set LastEditors
  * @Description: 单例模式
- * @FilePath: \learn-design-patterns\learns\dp_1.js
+ * @FilePath: \learn-design-patterns\dp-1\index.js
  * 
- * 单例模式的核心是确保只有一个实例，并提供全局访问。
+ * 核心：确保只有一个实例，并提供全局访问。
  * 
  */
 

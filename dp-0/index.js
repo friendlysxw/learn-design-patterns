@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-06-01 16:18:11
- * @LastEditTime: 2021-06-08 17:28:58
+ * @LastEditTime: 2021-06-10 16:43:38
  * @LastEditors: Please set LastEditors
  * @Description: 学习设计模式前的准备
- * @FilePath: \learn-design-patterns\learns\dp_0.js
+ * @FilePath: \learn-design-patterns\dp-0\index.js
  */
 
 /**
