@@ -1,0 +1,68 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-06-15 15:35:17
+ * @LastEditTime: 2021-06-15 16:06:01
+ * @LastEditors: Please set LastEditors
+ * @Description: 虚拟代理实现图片预加载
+ * @FilePath: \learn-design-patterns\dp-3\proxyImage.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    var imgSrc="http://106.38.157.61:88/admin/sys-file/huaxincloud/6%20%E8%A2%81%E7%B1%B3%E8%BD%BB%E7%A3%A8%E7%95%99%E8%83%9A%E7%B1%B3.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20210528%2F%2Fs3%2Faws4_request&X-Amz-Date=20210528T060327Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=70f1cb82aafec0998d289f7fd21313cec2b3174d092069b99a2efbbb6e460c3e"
+    var myImage=(function(){
+        var imgNode=document.createElement('img');
+        document.body.append(imgNode);
+        return {
+            setSrc:function(src){
+                imgNode.width="100";
+                imgNode.height="100";
+                imgNode.src=src;
+            }
+        }
+    })();
+    // myImage.setSrc(imgSrc);
+    /** 引入代理对象 **/
+    var proxyImage=(function(){
+        var img=new Image;
+        img.onload=function(){
+            myImage.setSrc(this.src);
+        }
+        return {
+            setSrc:function(src){
+                myImage.setSrc('./loading.gif');
+                img.src=src;
+            }
+        }
+    })();
+    // proxyImage.setSrc(imgSrc);
+
+    /** 不用代理的预加载图片函数实现, 不符合单一职责原则 **/
+    var MyImage=(function(){
+        var imgNode = document.createElement('img');
+        document.body.appendChild(imgNode);
+        var img = new Image;
+        img.onload = function(){
+            imgNode.width="100";
+            imgNode.height="100";
+            imgNode.src=img.src;
+        }
+        return {
+            setSrc:function(src){
+                imgNode.src="./loading.gif";
+                img.src=src;
+            }
+        }
+    })();
+    MyImage.setSrc(imgSrc);
+</script>
