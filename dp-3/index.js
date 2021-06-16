@@ -1,12 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2021-06-15 15:05:43
- * @LastEditTime: 2021-06-16 14:40:25
+ * @LastEditTime: 2021-06-16 15:12:35
  * @LastEditors: Please set LastEditors
  * @Description: 代理模式
  * @FilePath: \learn-design-patterns\dp-3\index.js
  * 
  * 核心：
+ * 当不方便直接方位一个对象或者不满足需求的时候，
+ * 提供一个替身对象来控制对这个对象的访问，
+ * 替身对象对请求做一些处理之后再把请求转交给本体对象
  */
 
 console.log('// 小明追MM的故事————start')
