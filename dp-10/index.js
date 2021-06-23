@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-06-22 15:47:14
- * @LastEditTime: 2021-06-23 14:28:02
+ * @LastEditTime: 2021-06-23 14:30:42
  * @LastEditors: Please set LastEditors
  * @Description: 职责链模式
  * @FilePath: \learn-design-patterns\dp-10\index.js
  * 
- * 核心：
+ * 核心：约定条件向下传递，直到可以解决
  * 
  */
 
