@@ -1,0 +1,77 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-06-24 14:52:18
+ * @LastEditTime: 2021-06-24 15:19:38
+ * @LastEditors: Please set LastEditors
+ * @Description: 数据统计上报
+ * @FilePath: \learn-design-patterns\dp-12\dataReport.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button tag="login" id="button">点击打开登陆浮层</button>
+</body>
+</html>
+<script>
+    var showLogin=function(){
+        console.log('打开登陆浮层');
+        log(this.getAttribute('tag'));
+    }
+    var log=function(tag){
+        console.log('上报标签为：'+tag);
+    }
+    document.getElementById('button').onclick=showLogin;
+
+    // 使用AOP分离
+    Function.prototype.before=function(beforefn){
+        var __self=this;
+        return function(){
+            beforefn.apply(this,arguments);
+            return __self.apply(this,arguments);
+        }
+    }
+    Function.prototype.after=function(afterfn){
+        var __self=this;
+        return function(){
+            var ret= __self.apply(this,arguments);
+            afterfn.apply(this,arguments);
+            return ret;
+        }
+    }
+    var showLogin=function(){
+        console.log('打开登陆浮层');
+    }
+    var log=function(){
+        console.log('上报标签为：'+this.getAttribute('tag'));
+    }
+    showLogin = showLogin.after(log);   // 打开登陆浮层之后上报数据
+    document.getElementById('button').onclick=showLogin;
+
+    // 用AOP动态改变函数的参数
+    var func=function(param){
+        console.log(param);
+    }
+    func=func.before(function(param){
+        param.b='b';
+    })
+    func({a:'a'});
+    // 发送ajax请求的函数
+    var ajax=function(type,url,param){
+        console.dir(param);
+    }
+    ajax('get','http://xxx.com/userinfo',{name:'sven'});
+    // 给ajax添加token
+    var getToken=function(){
+        return 'Token';
+    }
+    ajax=ajax.before(function(type,url,param){
+        param.Token=getToken()
+    })
+    ajax('get','http://xxx.com/userinfo',{name:'sven'});
+</script>
