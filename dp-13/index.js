@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-06-24 16:06:27
- * @LastEditTime: 2021-06-25 15:23:22
+ * @LastEditTime: 2021-06-25 15:26:32
  * @LastEditors: Please set LastEditors
  * @Description: 状态模式
  * @FilePath: \learn-design-patterns\dp-13\index.js
  * 
- * 核心：允许一个对象在其内部状态改变时改变它的行为，对象客气了是修改了它的类
+ * 核心：允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类
  * 
  * 基本状态模式案例查看：light.html
  */
